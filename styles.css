@@ -1,0 +1,998 @@
+/* ========================
+   DESIGN TOKENS
+   ======================== */
+:root {
+    --primary: #22c55e;
+    --primary-light: #4ade80;
+    --primary-dark: #16a34a;
+    --primary-bg: #f0fdf4;
+    --primary-bg-hover: #dcfce7;
+    --primary-ring: rgba(34, 197, 94, 0.25);
+
+    --bg: #f8faf9;
+    --bg-card: #ffffff;
+    --bg-table-header: #f1f5f3;
+    --bg-hover: #f0f4f2;
+
+    --text: #1a1a1a;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+
+    --border: #e5e7eb;
+    --border-light: #f3f4f6;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.1);
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --danger: #ef4444;
+    --danger-bg: #fef2f2;
+
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode */
+body.dark {
+    --primary: #4ade80;
+    --primary-light: #86efac;
+    --primary-dark: #22c55e;
+    --primary-bg: #052e16;
+    --primary-bg-hover: #064e27;
+    --primary-ring: rgba(74, 222, 128, 0.2);
+
+    --bg: #0f1210;
+    --bg-card: #1a1f1c;
+    --bg-table-header: #232a26;
+    --bg-hover: #252d28;
+
+    --text: #f1f5f3;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+
+    --border: #2d3532;
+    --border-light: #232a26;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.5);
+
+    --danger: #f87171;
+    --danger-bg: #2a1515;
+}
+
+/* ========================
+   RESET & BASE
+   ======================== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background var(--transition), color var(--transition);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========================
+   SCROLLBAR
+   ======================== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ========================
+   STICKY HEADER
+   ======================== */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.85);
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+body.dark .sticky-header {
+    background: rgba(26, 31, 28, 0.88);
+}
+
+.sticky-header.scrolled {
+    box-shadow: var(--shadow-md);
+}
+
+.header-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    display: flex;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ========================
+   BUTTONS
+   ======================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--primary-ring);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+    border-color: var(--text-muted);
+}
+
+.btn-danger {
+    color: var(--danger);
+    border-color: transparent;
+}
+.btn-danger:hover {
+    background: var(--danger-bg);
+    border-color: var(--danger);
+}
+
+.btn-danger-solid {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.btn-danger-solid:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.btn-icon:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+}
+
+/* ========================
+   MAIN CONTENT
+   ======================== */
+.main-content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px 32px 60px;
+}
+
+/* ========================
+   MONTH HERO
+   ======================== */
+.month-hero {
+    text-align: center;
+    padding: 32px 0 20px;
+}
+
+.month-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.month-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.month-nav-btn:hover {
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.month-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1.1;
+}
+
+.month-year {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+/* Stats */
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 22px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+    min-width: 180px;
+}
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    background: var(--primary-bg);
+    flex-shrink: 0;
+}
+
+.progress-ring-mini-wrap {
+    background: transparent;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* ========================
+   SECTION HEADER
+   ======================== */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.section-title svg {
+    color: var(--primary);
+}
+
+/* ========================
+   TRACKER TABLE
+   ======================== */
+.tracker-section {
+    margin-top: 12px;
+}
+
+.tracker-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+.tracker-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.78rem;
+}
+
+.tracker-table th,
+.tracker-table td {
+    padding: 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    white-space: nowrap;
+}
+
+.tracker-table th:last-child,
+.tracker-table td:last-child {
+    border-right: none;
+}
+
+.tracker-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Top header row (week labels) */
+.tracker-table thead th {
+    background: var(--bg-table-header);
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 8px 4px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Sub header - day names */
+.tracker-table .day-header {
+    background: var(--bg-table-header);
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 5px 2px;
+    font-size: 0.68rem;
+}
+
+/* Date numbers row */
+.tracker-table .date-header {
+    background: var(--bg-table-header);
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 4px 2px;
+    font-size: 0.72rem;
+}
+
+.tracker-table .date-today {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Habit name cell */
+.habit-name-cell {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: var(--bg-card);
+    padding: 0 12px !important;
+    text-align: left !important;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 160px;
+    max-width: 200px;
+}
+
+.habit-name-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 0;
+}
+
+.habit-name-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.habit-delete-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--transition);
+}
+.habit-delete-btn:hover {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+.habit-name-cell:hover .habit-delete-btn {
+    display: flex;
+}
+
+.week-label-cell {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: var(--bg-table-header);
+    font-weight: 600;
+    color: var(--primary);
+    padding: 6px 12px !important;
+    text-align: left !important;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+}
+
+/* Progress column */
+.progress-cell {
+    min-width: 60px;
+    padding: 6px 8px !important;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.progress-cell-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.progress-bar-mini {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-bar-mini-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    transition: width 0.4s ease;
+}
+
+.progress-pct {
+    font-size: 0.7rem;
+    color: var(--primary);
+    min-width: 28px;
+    text-align: right;
+}
+
+/* Checkbox cell */
+.checkbox-cell {
+    min-width: 32px;
+    max-width: 32px;
+    width: 32px;
+    cursor: pointer;
+    transition: background var(--transition);
+    padding: 4px !important;
+}
+.checkbox-cell:hover {
+    background: var(--primary-bg-hover);
+}
+
+.checkbox-cell .cb-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin: 0 auto;
+    border-radius: 5px;
+    border: 1.5px solid var(--border);
+    background: var(--bg-card);
+    transition: all var(--transition);
+    cursor: pointer;
+}
+
+.checkbox-cell .cb-inner:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-ring);
+}
+
+.checkbox-cell.checked .cb-inner {
+    background: var(--primary);
+    border-color: var(--primary);
+    animation: checkPop 0.3s ease;
+}
+
+.checkbox-cell.checked .cb-inner svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.checkbox-cell .cb-inner svg {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s ease;
+}
+
+.checkbox-cell.empty {
+    cursor: default;
+}
+.checkbox-cell.empty:hover {
+    background: transparent;
+}
+.checkbox-cell.empty .cb-inner {
+    border-color: transparent;
+    background: transparent;
+}
+
+@keyframes checkPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Daily completion row */
+.daily-completion-row td {
+    background: var(--primary-bg);
+    font-weight: 600;
+    font-size: 0.68rem;
+    color: var(--primary-dark);
+    padding: 5px 2px !important;
+}
+
+body.dark .daily-completion-row td {
+    color: var(--primary-light);
+}
+
+.daily-completion-label {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: var(--primary-bg);
+    text-align: left !important;
+    padding: 5px 12px !important;
+    font-size: 0.72rem !important;
+}
+
+/* ========================
+   WEEKLY PROGRESS CARDS
+   ======================== */
+.weekly-section {
+    margin-top: 40px;
+}
+
+.weekly-cards-scroll {
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.weekly-cards {
+    display: flex;
+    gap: 14px;
+    min-width: max-content;
+}
+
+.weekly-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 18px;
+    min-width: 170px;
+    max-width: 190px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.weekly-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+.weekly-card-header {
+    text-align: center;
+}
+
+.weekly-card-day {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.weekly-card-date {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+/* Progress Ring */
+.progress-ring-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.progress-ring-svg {
+    width: 80px;
+    height: 80px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 6;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.progress-ring-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* Mini checklist */
+.weekly-card-checklist {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.weekly-checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    padding: 2px 0;
+}
+
+.weekly-checklist-item.done {
+    color: var(--primary);
+}
+
+.weekly-checklist-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.weekly-checklist-item.done .weekly-checklist-dot {
+    background: var(--primary);
+}
+
+.weekly-checklist-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ========================
+   CHART SECTION
+   ======================== */
+.graph-section {
+    margin-top: 40px;
+}
+
+.chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    height: 320px;
+}
+
+.chart-container canvas {
+    max-height: 100%;
+}
+
+/* ========================
+   MODALS
+   ======================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 90%;
+    max-width: 420px;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.25s ease;
+}
+.modal-overlay.show .modal {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 0;
+}
+
+.modal-header h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 16px 24px;
+}
+
+.modal-text {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.modal-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-ring);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0 24px 20px;
+}
+
+/* ========================
+   FOOTER
+   ======================== */
+.footer {
+    text-align: center;
+    padding: 30px 0 20px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 768px) {
+    .header-inner {
+        padding: 10px 16px;
+    }
+
+    .btn span {
+        display: none;
+    }
+
+    .btn {
+        padding: 8px 10px;
+    }
+
+    .main-content {
+        padding: 16px 12px 40px;
+    }
+
+    .month-title {
+        font-size: 2rem;
+    }
+
+    .stats-row {
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 10px 14px;
+        min-width: 140px;
+        flex: 1;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+
+    .habit-name-cell {
+        min-width: 120px;
+    }
+
+    .weekly-card {
+        min-width: 150px;
+        padding: 14px 12px;
+    }
+
+    .chart-container {
+        height: 240px;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .stat-card {
+        min-width: auto;
+    }
+
+    .month-nav {
+        gap: 16px;
+    }
+
+    .month-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* ========================
+   ANIMATIONS
+   ======================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tracker-section,
+.weekly-section,
+.graph-section {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.weekly-section {
+    animation-delay: 0.1s;
+}
+
+.graph-section {
+    animation-delay: 0.2s;
+}

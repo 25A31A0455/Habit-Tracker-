@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker & Student Life Organizer</title>
+    <meta name="description" content="A modern habit tracker and student life organizer with monthly tracking, weekly progress rings, and consistency graphs.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="stickyHeader">
+        <div class="header-inner">
+            <div class="header-left">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" rx="2" fill="var(--primary)"/>
+                        <rect x="14" y="3" width="7" height="7" rx="2" fill="var(--primary)" opacity="0.6"/>
+                        <rect x="3" y="14" width="7" height="7" rx="2" fill="var(--primary)" opacity="0.6"/>
+                        <rect x="14" y="14" width="7" height="7" rx="2" fill="var(--primary)" opacity="0.3"/>
+                    </svg>
+                </div>
+                <h1 class="header-title">HabitFlow</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" id="addHabitBtn" title="Add New Habit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    <span>Add Habit</span>
+                </button>
+                <button class="btn btn-ghost btn-danger" id="resetMonthBtn" title="Reset Month">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="1 4 1 10 7 10"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                    <span>Reset</span>
+                </button>
+                <button class="btn-icon" id="darkModeToggle" title="Toggle Dark Mode">
+                    <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Month Title & Stats -->
+        <section class="month-hero" id="monthHero">
+            <div class="month-nav">
+                <button class="month-nav-btn" id="prevMonthBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div class="month-title-block">
+                    <h2 class="month-title" id="monthTitle">November</h2>
+                    <p class="month-year" id="monthYear">2026</p>
+                </div>
+                <button class="month-nav-btn" id="nextMonthBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalHabits">10</span>
+                        <span class="stat-label">Total Habits</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="completedToday">0</span>
+                        <span class="stat-label">Completed Today</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon progress-ring-mini-wrap">
+                        <svg class="progress-ring-mini" width="40" height="40" viewBox="0 0 40 40">
+                            <circle cx="20" cy="20" r="16" fill="none" stroke="var(--border)" stroke-width="3"/>
+                            <circle class="progress-ring-mini-circle" cx="20" cy="20" r="16" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"
+                                stroke-dasharray="100.53" stroke-dashoffset="100.53" transform="rotate(-90 20 20)"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="monthProgress">0%</span>
+                        <span class="stat-label">Monthly Progress</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monthly Tracker Table -->
+        <section class="tracker-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    Monthly Habit Tracker
+                </h3>
+            </div>
+            <div class="tracker-table-wrapper" id="trackerTableWrapper">
+                <table class="tracker-table" id="trackerTable">
+                    <!-- Dynamically generated -->
+                </table>
+            </div>
+        </section>
+
+        <!-- Weekly Progress Cards -->
+        <section class="weekly-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Weekly Progress
+                </h3>
+            </div>
+            <div class="weekly-cards-scroll">
+                <div class="weekly-cards" id="weeklyCards">
+                    <!-- Dynamically generated -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Consistency Graph -->
+        <section class="graph-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                    Consistency Graph
+                </h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="consistencyChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Habit Modal -->
+    <div class="modal-overlay" id="addHabitModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Habit</h3>
+                <button class="btn-icon" id="closeModalBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newHabitInput" class="modal-input" placeholder="Enter habit name..." maxlength="30" autocomplete="off">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="cancelModalBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmAddHabit">Add Habit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Reset Modal -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Reset Month Data</h3>
+                <button class="btn-icon close-reset-modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">Are you sure you want to reset all tracking data for this month? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost close-reset-modal">Cancel</button>
+                <button class="btn btn-danger-solid" id="confirmReset">Reset All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>HabitFlow &mdash; Built for productive students &hearts;</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
